@@ -3,223 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Quick D&amp;D maker</title>
-<style>
-.checkbox .mark {
- position: relative;
- left: 3px;
- top: 3px;
- background-color: #FFFFFF;
- border: solid;
- border-width: 1px;
- border-radius: 24px;
- width: 15px;
- height: 15px;
- display: inline-block;
- margin-right: 8px;
-}
-.checkbox input {display: none;}
-.checkbox input:checked + .mark {background-color: #000000;}
-.checkbox + input:placeholder-shown + .dval {color: transparent;}
-.dval {display: inline-block;width: 115px;}
-
-input {
- border: none;
- border-bottom: solid;
- background-color: transparent;
- margin: 2px;
-}
-input:focus {outline: none;}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
- -webkit-appearance: none;
- margin: 0;
-}
-input[type=number] {-moz-appearance: textfield;}
-input:invalid {border-color: #FF0000;}
-
-.section {
- display: inline-block;
- position: absolute;
- border: solid;
- border-width: 2px;
- border-radius: 3px;
-}
-#basic {
- top: 5px;
- left: 450px;
- width: 1050px;
- height: 70px;
-}
-#basic > input {
- margin-left: 10px;
- margin-right: 15px;
- margin-top: 5px;
- width: 350px;
-}
-#align {
- z-index: 3;
- background-color: #FFFFFF;
- width: 130px;
- height: 125px;
- left: 300px;
- top: 55px;
- visibility: hidden;
- font-size: 10px;
-}
-#altext:focus ~ #align {visibility: visible;}
-#align button {
- width: 30px;
- height: 30px;
- border: solid;
- border-width: 1px;
- background-color: #FFFFFF;
- margin: 1px;
-}
-#align button:hover {background-color: #AAAAAA;}
-.block {
- border: solid;
- border-radius: 3px;
- width: 50px;
- height: 50px;
- text-align: center;
- font-size: 24px;
-}
-.stat {
- position: relative;
- width: 50px;
- font-size: 9px;
- text-align: center;
- top: -63px;
- left: 15px;
- margin-bottom: 0px;
-}
-.bblock {
- border: solid;
- border-radius: 12px;
- position: relative;
- top: -34px;
- left: 13px;
- background-color: #FFFFFF;
- width: 18px;
- height: 13px;
- padding: 2px 4px;
- text-align: center;
- margin-bottom: 5px;
-}
-.block, .bblock {
- display: block
-}
-#sthrow {
- left: 90px;
- top: 100px;
- width: 320px;
- height: 175px;
-}
-#pointb {
- left: 90px;
- top: 280px;
- width: 320px;
- height: 176px;
-}
-#pointb span {margin-bottom: 5px;display:inline-block;}
-#pointb input {width:50px;}
-#skills {
- left: 420px;
- top: 100px;
- width: 320px;
- height: 535px;
-}
-#sthrow input, #skills input {
- margin-bottom: 7px;
-}
-checkbox {
- border-bottom: solid;
- border-top: solid;
- border-bottom-color: transparent;
- border-top-color: transparent;
-}
-checkbox:hover {
- background-color: #AAAAAA;
- border-color: #AAAAAA;
-}
-</style>
-<script>
-var did = false;
-var bonus = 2;
-var rbon = [0, 0, 0, 0, 0, 0];
-
-function prof(id) {
- if(did) {
-  var el = document.getElementById(id);
-  var val = parseInt(el.value);
-  var cb = document.getElementById("cb"+id);
-  if(cb.checked) {el.value = val+bonus;}
-  else {el.value= val-bonus;}
- }
- did = !did;
-}
-function stat(name) {
- var m = document.getElementsByName(name);
- var f = parseInt(document.getElementById("m"+name).value);
- for(var i=0;i<m.length;i++) {
-  if(m[i].previousSibling.getElementsByTagName("input")[0].checked) {f+=bonus;}
-  m[i].value = f;
- }
-}
-function mod(id) {
- var f = parseInt(document.getElementById(id).value);
- var m = document.getElementById("m"+id);
- var p = document.getElementById("p"+id);
- p.innerHTML = calc(f);
- if(p.innerHTML=="NaN") {p.innerHTML = "<font color='red'>Value unset</font>";}
- f = parseInt((f-10)/2);
- var index = 0;
- if(id=="dex") {index=1;} else if(id=="con") {index=2;} else if(id=="int") {index=3;} else if(id=="wis") {index=4;} else if(id=="cha") {index=5;}
- f += rbon[index];
- document.getElementById("b"+id).value = rbon[index];
- m.value = f;
- stat(id);
- var b = document.getElementsByClassName("bblock");
- var t = 0;
- for(var i=0;i<b.length;i++) {
-  t += calc(parseInt(b[i].value));
- }
- var ptot = document.getElementById("ptot");
- ptot.innerHTML = t;
- if(t>27) {ptot.style.color = "#FF0000";}
- else {ptot.style.color = "#000000";}
-}
-function upbon(id, index) {
- rbon[index] = parseInt(document.getElementById("b"+id).value);
- mod(id);
-}
-function calc(b) {if(b<13) {return b-8;}else {return (b-13+1)*2+3;}}
-function align(type) {
- document.getElementById("altext").value = type;
-}
-function racbon() {
- var b = getBonus(document.getElementById("rtext").value);
- rbon = [0, 0, 0, 0, 0, 0];
- if(b==null) {return;}
- if(b.getAttribute("str")) {rbon[0] = parseInt(b.getAttribute("str"));} else {rbon[0]=0;}
- if(b.getAttribute("dex")) {rbon[1] = parseInt(b.getAttribute("dex"));} else {rbon[1]=0;}
- if(b.getAttribute("con")) {rbon[2] = parseInt(b.getAttribute("con"));} else {rbon[2]=0;}
- if(b.getAttribute("int")) {rbon[3] = parseInt(b.getAttribute("int"));} else {rbon[3]=0;}
- if(b.getAttribute("wis")) {rbon[4] = parseInt(b.getAttribute("wis"));} else {rbon[4]=0;}
- if(b.getAttribute("cha")) {rbon[5] = parseInt(b.getAttribute("cha"));} else {rbon[5]=0;}
- mod('str');
- mod('dex');
- mod('con');
- mod('int');
- mod('wis');
- mod('cha');
-}
-function getBonus(val) {
- var op = document.getElementById("race").childNodes;
- for(var i=0;i<op.length;i++) {if(op[i].innerHTML==val) {return op[i];}}
- return null;
-}
-</script>
+<link rel="stylesheet" href="style.css">
+<script src="before.js"></script>
 </head>
 <body>
 <input type="text" placeholder="Name" style="width:400px;height:50px;" required><br>
@@ -227,56 +12,59 @@ function getBonus(val) {
 <input type="text" placeholder="Class & Level" required list="class">
 <datalist id="class" name="auto">Artificer 1,Barbarian 1,Bard 1,Cleric 1,Druid 1,Fighter 1,Monk 1,Paladin 1,Ranger 1,Rogue 1,Sorcerer 1,Warlock 1,Wizard 1</datalist>
 <input type="text" placeholder="Background" required list="bg">
-<datalist id="bg" name="auto">Acolyte,Anthropologist,Athlete,Azorius Functionary,Black Fist Double Agent,Boros Legionnaire,Caravan Specialist,Celebrity Adventurer&apos;s Scion,Charlatan,City Watch,Clan Crafter,Cloistered Scholar,Cormanthor Refugee,Courtier,Criminal,Dimir Operative,Dissenter,Dragon Casualty,Earthspur Miner,Entertainer,Faceless,Faction Agent,Failed Merchant,Far Traveler,Feylost,Fisher,Folk Hero,Gambler,Gate Urchin,Gladiator,Golgari Agent,Gruul Anarch,Guild Artisan,Guild Merchant,Harborfolk,Haunted One,Hermit,Hillsfar Merchant,Hillsfar Smuggler,House Agent,Inheritor,Initiate,Inquisitor,Investigator,Iron Route Bandit,Izzet Engineer,Knight,Knight of the Order,Marine,Mercenary Veteran,Mulmaster Aristocrat,Noble,Orzhov Representative,Outlander,Phlan Insurgent,Phlan Refugee,Pirate,Plaintiff,Rakdos Cultist,Rival Intern,Sage,Sailor,Secret Identity,Selesnya Initiate,Shade Fanatic,Shipwrite,Simic Scientist,Smuggler,Soldier,Spy,Stojanow Prisoner,Ticklebelly Nomad,Trade Sheriff,Urban Bounty Hunter,Urchin,Uthgardt Tribe Member,Vizier,Waterdhavian Noble</datalist>
+<datalist id="bg" name="auto">Acolyte,Anthropologist,Athlete,Azorius Functionary,Black Fist Double Agent,Boros Legionnaire,Caravan Specialist,Celebrity Adventurer&apos;s Scion,Charlatan,City Watch,Clan Crafter,Cloistered Scholar,Cormanthor Refugee,Courtier,Criminal,Dimir Operative,Dissenter,Dragon Casualty,Earthspur Miner,Entertainer,Faceless,Faction Agent,Failed Merchant,Far Traveler,Feylost,Fisher,Folk Hero,Gambler,Gate Urchin,Gladiator,Golgari Agent,Gruul Anarch,Guild Artisan,Guild Merchant,Harborfolk,Haunted One,Hermit,Hillsfar Merchant,Hillsfar Smuggler,House Agent,Inheritor,Initiate,Inquisitor,Investigator,Iron Route Bandit,Izzet Engineer,Knight,Knight of the Order,Marine,Mercenary Veteran,Mulmaster Aristocrat,Noble,Orzhov Representative,Outlander,Phlan Insurgent,Phlan Refugee,Pirate,Plaintiff,Rakdos Cultist,Rival Intern,Sage,Sailor,Selesnya Initiate,Shade Fanatic,Shipwrite,Simic Scientist,Smuggler,Soldier,Spy,Stojanow Prisoner,Ticklebelly Nomad,Trade Sheriff,Urban Bounty Hunter,Urchin,Uthgardt Tribe Member,Vizier,Waterdhavian Noble</datalist>
 
-<input type="text" placeholder="Race" required list="race" id="rtext" oninput="racbon()">
-<datalist id="race" onclick="racbon()">
-<option str=2 cha=1>Dragonborn</option>
-<option con=2>Dwarf</option>
-<option dex=2>Elf</option>
-<option int=2>Gnome</option>
-<option cha=2>Half-Elf</option>
-<option dex=2>Halfling</option>
-<option str=2 con=1>Half-Orc</option>
-<option str=1 dex=1 con=1 int=1 wis=1 cha=1>Human</option>
-<option cha=2 int=1>Tiefling</option>
-<option cha=1>Changeling</option>
-<option wis=2 cha=1>Kalashtar</option>
-<option>Shifter</option>
-<option con=2>Warforged</option>
-<option dex=2 wis=1>Arakocra</option>
-<option con=1>Genasi</option>
-<option str=2 con=1>Goliath</option>
-<option str=2 wis=1>Centaur</option>
-<option con=2 wis=1>Loxodon</option>
-<option str=2 con=1>Minotaur</option>
-<option con=2>Simic Hybrid</option>
-<option int=2 wis=1>Vedalken</option>
-<option cha=2>Aetherborn</option>
-<option dex=2>Aven</option>
-<option dex=2 str=1>Khenra</option>
-<option dex=2 wis=1>Kor</option>
-<option cha=1>Merfolk</option>
-<option con=2 int=1>Naga</option>
-<option con=1 wis=1 cha=1>Siren</option>
-<option cha=2 int=1>Vampire</option>
-<option cha=2>Aasimar</option>
-<option str=2 dex=1>Bugbear</option>
-<option wis=2 str=1>Firbolg</option>
-<option dex=2 con=1>Goblin</option>
-<option con=2 int=1>Hobgoblin</option>
-<option dex=2 wis=1>Kenku</option>
-<option dex=2>Kobold</option>
-<option con=2 wis=1>Lizardfolk</option>
-<option str=2 con=1>Orc</option>
-<option dex=2 cha=1>Tabaxi</option>
-<option str=1 con=1 cha=1>Triton</option>
-<option cha=2 int=1>Yuan-ti Pureblood</option>
-<option int=1>Gith</option>
-<option str=2 dex=1>Locathah</option>
-<option str=2 wis=1>Tortle</option>
-<option cha=2 con=1>Verdan</option>
-</datalist>
+<label style="position:absolute;left:750px;top:5px;"><input type="checkbox"> Secret Identity</label>
+
+<input type="text" placeholder="Race" required list="race" id="rtext">
+<span id="race" class="section" onclick="racbon()">
+<button onmousedown="racbon('Dragonborn', '200001')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/340/420/618/636272677995471928.png')">Dragonborn</button>
+<button onmousedown="racbon('Dwarf', '002000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/254/420/618/636271781394265550.png')">Dwarf</button>
+<button onmousedown="racbon('Elf', '020000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/7/639/420/618/636287075350739045.png')">Elf</button>
+<button onmousedown="racbon('Gnome', '0002000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/334/420/618/636272671553055253.png')">Gnome</button>
+<button onmousedown="racbon('Half-Elf', '000002')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/481/420/618/636274618102950794.png')">Half-Elf</button>
+<button onmousedown="racbon('Halfling', '020000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/256/420/618/636271789409776659.png')">Halfling</button>
+<button onmousedown="racbon('Half-Orc', '201000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/466/420/618/636274570630462055.png')">Half-Orc</button>
+<button onmousedown="racbon('Human', '111111')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/6/258/420/618/636271801914013762.png')">Human</button>
+<button onmousedown="racbon('Tiefling', '000102')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/7/641/420/618/636287076637981942.png')">Tiefling</button>
+<button onmousedown="racbon('Changeling', '000001')" onmouseover="showimg('https://static.wikia.nocookie.net/eberron/images/9/93/Changeling_5.jpg/revision/latest/scale-to-width-down/640?cb=20200412173913')">Changeling</button>
+<button onmousedown="racbon('Kalashtar', '000021')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/f/f7/Kalashtar.png/revision/latest/scale-to-width-down/361?cb=20191116221740')">Kalashtar</button>
+<button onmousedown="racbon('Shifter', '000000')" onmouseover="showimg('https://static.wikia.nocookie.net/eberron/images/d/d8/Shifter_4.jpg/revision/latest/scale-to-width-down/728?cb=20160224201103')">Shifter</button>
+<button onmousedown="racbon('Warforged', '002000')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/4/47/Warforged.png/revision/latest/scale-to-width-down/347?cb=20191116222004')">Warforged</button>
+<button onmousedown="racbon('Arakoncra', '020010')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/7/622/420/618/636286750209394240.png')">Arakocra</button>
+<button onmousedown="racbon('Genasi', '001000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/7/630/420/618/636286776277352504.png')">Genasi</button>
+<button onmousedown="racbon('Goliath', '201000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/7/620/420/618/636286749289682134.png')">Goliath</button>
+<button onmousedown="racbon('Centaur', '200010')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/0/227/1000/1000/636252765573266420.jpeg')">Centaur</button>
+<button onmousedown="racbon('Loxodon', '002010')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/8/82/Loxodon.png/revision/latest/scale-to-width-down/420?cb=20191116222206')">Loxodon</button>
+<button onmousedown="racbon('Minotaur', '201000')" onmouseover="showimg('https://www.arcaneeye.com/wp-content/uploads/2021/04/wisnu-tan-rage-bellower-uplox.jpg.webp')">Minotaur</button>
+<button onmousedown="racbon('Simic Hybrid', '002000')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/0/0b/Simic_Hybrid.png/revision/latest/scale-to-width-down/420?cb=20191116222426')">Simic Hybrid</button>
+<button onmousedown="racbon('Vedalken', '000210')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/d/dd/Vedalken.jpg/revision/latest/scale-to-width-down/1000?cb=20191116222552')">Vedalken</button>
+<button onmousedown="racbon('Aetherborn', '000002')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/4/4d/Aetherborn.png/revision/latest/scale-to-width-down/1000?cb=20191116222801')">Aetherborn</button>
+<button onmousedown="racbon('Aven', '020000')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/d/d2/Aven.png/revision/latest/scale-to-width-down/273?cb=20191116223000')">Aven</button>
+<button onmousedown="racbon('Khenra', '120000')" onmouseover="showimg('https://static.wikia.nocookie.net/penrith/images/e/e9/Khenra.png/revision/latest/scale-to-width-down/286?cb=20190326133709')">Khenra</button>
+<button onmousedown="racbon('Kor', '0201000')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/c/c9/Kor.jpg/revision/latest/scale-to-width-down/1000?cb=20191116223238')">Kor</button>
+<button onmousedown="racbon('Merfolk', '000001')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/0/197/1000/1000/636252763841141413.jpeg')">Merfolk</button>
+<button onmousedown="racbon('Naga', '002100')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/a/a6/Guardian_naga-5e.jpg/revision/latest/scale-to-width-down/809?cb=20171010180024')">Naga</button>
+<button onmousedown="racbon('Siren', '001011')" onmouseover="showimg('https://pm1.narvii.com/6475/08e6803d0de55f635b38ea59f6d3fd76e9f65163_hq.jpg')">Siren</button>
+<button onmousedown="racbon('Vampire', '000102')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/0/91/1000/1000/636252738665379794.jpeg')">Vampire</button>
+<button onmousedown="racbon('Aasimar', '000002')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/9/9d/Aasimar-5e.png/revision/latest/scale-to-width-down/500?cb=20180614210534')">Aasimar</button>
+<button onmousedown="racbon('Bugbear', '210000')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/f/f8/Monster_Manual_5e_-_Bugbear_-_p33.jpg/revision/latest/scale-to-width-down/812?cb=20200313165121')">Bugbear</button>
+<button onmousedown="racbon('Firbolg', '100020')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/7/79/Firbolg-5e.jpg/revision/latest/scale-to-width-down/420?cb=20180623050202')">Firbolg</button>
+<button onmousedown="racbon('Goblin', '021000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/0/351/1000/1000/636252777818652432.jpeg')">Goblin</button>
+<button onmousedown="racbon('Hobgoblin, '002100')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/0/389/1000/1000/636252781431932597.jpeg')">Hobgoblin</button>
+<button onmousedown="racbon('Kenku', '020010')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/0/04/Kenku-5e.png/revision/latest/scale-to-width-down/906?cb=20171010191131')">Kenku</button>
+<button onmousedown="racbon('Kobold', '020000')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/f/f3/Monster_Manual_5e_-_Kobold_-_p195.jpg/revision/latest/scale-to-width-down/1000?cb=20141112221803')">Kobold</button>
+<button onmousedown="racbon('Lizardfolk', '002010')" onmouseover="showimg('https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg/800px-Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg')">Lizardfolk</button>
+<button onmousedown="racbon('Orc', '201000')" onmouseover="showimg('https://www.dndbeyond.com/avatars/thumbnails/0/301/256/315/636252771691385727.jpeg')">Orc</button>
+<button onmousedown="racbon('Tabaxi', '020001')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/a/a2/Tabaxi-5e.jpg/revision/latest/scale-to-width-down/1000?cb=20170131190820')">Tabaxi</button>
+<button onmousedown="racbon('Triton', '101001')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/7/72/Triton-5e.jpg/revision/latest/scale-to-width-down/250?cb=20190930164813')">Triton</button>
+<button onmousedown="racbon('Yuan-ti Pureblood', '000102')" onmouseover="showimg('https://static.wikia.nocookie.net/d-n-d5e/images/a/a3/Yuan-ti_Pureblood.png/revision/latest/scale-to-width-down/288?cb=20191116221541')">Yuan-ti Pureblood</button>
+<button onmousedown="racbon('Gith', '000100')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/3/3d/Monster_Manual_5e_-_Githyanki_-_p160.jpg/revision/latest/scale-to-width-down/567?cb=20200229181610')">Gith</button>
+<button onmousedown="racbon('Locathah', '210000')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/0/00/Locathah-5e.jpg/revision/latest/scale-to-width-down/1000?cb=20210305203002')">Locathah</button>
+<button onmousedown="racbon('Tortle', '200010')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/7/72/Tortle-5e.png/revision/latest/scale-to-width-down/933?cb=20170928140158')">Tortle</button>
+<button onmousedown="racbon('Verdan', '021000')" onmouseover="showimg('https://static.wikia.nocookie.net/forgottenrealms/images/8/88/Verdan-5e.jpg/revision/latest?cb=20190811111038')">Verdan</button>
+</span>
+
 <input type="text" placeholder="Alignment" id="altext" required>
 <span class="section" id="align">
 Lawful Neutral Chaotic<br>
@@ -352,31 +140,9 @@ Total: <span id="ptot">0</span>
 <checkbox id="suv" name="wis">Survival</checkbox><br>
 </span>
 
-<script>
-const probon = document.getElementById("probon");
-var pro = document.getElementsByTagName("checkbox");
-for(var i=0;i<pro.length;i++) {
- var inner = pro[i].innerHTML;
- var id = pro[i].id;
- var name = pro[i].getAttribute("name");
- pro[i].setAttribute("name", "");
- pro[i].id = "";
- pro[i].innerHTML = "<label class=\"checkbox\" onclick=\"prof('"+id+"')\"><input type=\"checkbox\" id=\""+("cb"+id)+"\"><span class=\"mark\"></span></label><input type=\"number\" placeholder=\""+inner+"\" id=\""+id+"\" name=\""+name+"\"><span class=\"dval\">"+inner+"</span> <font color='grey'>"+name+"</font>";
-}
-var dat = document.getElementsByName("auto");
-for(var i=0;i<dat.length;i++) {
- var inner = dat[i].innerHTML.split(",");
- dat[i].innerHTML = "";
- for(var j=0;j<inner.length;j++) {
-  dat[i].innerHTML += "<option>"+inner[j]+"</option>";
- }
-}
-mod('str');
-mod('dex');
-mod('con');
-mod('int');
-mod('wis');
-mod('cha');
-</script>
+<img id="img">
+<span id="imgsrc"></span>
+
+<script src="after.js"></script>
 </body>
 </html>
