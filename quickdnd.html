@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <title>Quick D&amp;D maker</title>
 <style>
-.checkbox > .mark {
+.checkbox .mark {
  position: relative;
  left: 3px;
- top: 6px;
+ top: 3px;
  background-color: #FFFFFF;
  border: solid;
  border-width: 1px;
@@ -17,10 +17,10 @@
  display: inline-block;
  margin-right: 8px;
 }
-.checkbox > input {
- display: none;
-}
-.checkbox > input:checked + .mark {background-color: #000000;}
+.checkbox input {display: none;}
+.checkbox input:checked + .mark {background-color: #000000;}
+.checkbox + input:placeholder-shown + .dval {color: transparent;}
+.dval {display: inline-block;width: 115px;}
 
 input {
  border: none;
@@ -84,21 +84,27 @@ input:invalid {border-color: #FF0000;}
  text-align: center;
  font-size: 24px;
 }
-.block:placeholder-shown {
+.stat {
+ position: relative;
+ width: 50px;
  font-size: 9px;
+ text-align: center;
+ top: -63px;
+ left: 15px;
+ margin-bottom: 0px;
 }
 .bblock {
  border: solid;
  border-radius: 12px;
  position: relative;
- top: -17px;
+ top: -34px;
  left: 13px;
  background-color: #FFFFFF;
  width: 18px;
  height: 13px;
  padding: 2px 4px;
  text-align: center;
- margin-bottom: 20px;
+ margin-bottom: 5px;
 }
 .block, .bblock {
  display: block
@@ -106,25 +112,35 @@ input:invalid {border-color: #FF0000;}
 #sthrow {
  left: 90px;
  top: 100px;
- width: 300px;
+ width: 320px;
  height: 175px;
 }
 #pointb {
  left: 90px;
  top: 280px;
- width: 300px;
+ width: 320px;
  height: 176px;
 }
 #pointb span {margin-bottom: 5px;display:inline-block;}
 #pointb input {width:50px;}
 #skills {
- left: 410px;
+ left: 420px;
  top: 100px;
- width: 300px;
+ width: 320px;
  height: 535px;
 }
 #sthrow input, #skills input {
  margin-bottom: 7px;
+}
+checkbox {
+ border-bottom: solid;
+ border-top: solid;
+ border-bottom-color: transparent;
+ border-top-color: transparent;
+}
+checkbox:hover {
+ background-color: #AAAAAA;
+ border-color: #AAAAAA;
 }
 </style>
 <script>
@@ -154,7 +170,8 @@ function mod(id) {
  var f = parseInt(document.getElementById(id).value);
  var m = document.getElementById("m"+id);
  var p = document.getElementById("p"+id);
- p.innerHTML = calc(f)
+ p.innerHTML = calc(f);
+ if(p.innerHTML=="NaN") {p.innerHTML = "<font color='red'>Value unset</font>";}
  f = parseInt((f-10)/2);
  var index = 0;
  if(id=="dex") {index=1;} else if(id=="con") {index=2;} else if(id=="int") {index=3;} else if(id=="wis") {index=4;} else if(id=="cha") {index=5;}
@@ -208,9 +225,9 @@ function getBonus(val) {
 <input type="text" placeholder="Name" style="width:400px;height:50px;" required><br>
 <span class="section" id="basic">
 <input type="text" placeholder="Class & Level" required list="class">
-<datalist id="class" name="auto">Arificer 1,Barbarian 1,Bard 1,Cleric 1,Druid ,Fighter 1,Monk 1,Paladin 1,Ranger 1,Rouge 1,Sorcerer 1,Warlock 1,Wizard 1</datalist>
+<datalist id="class" name="auto">Artificer 1,Barbarian 1,Bard 1,Cleric 1,Druid 1,Fighter 1,Monk 1,Paladin 1,Ranger 1,Rogue 1,Sorcerer 1,Warlock 1,Wizard 1</datalist>
 <input type="text" placeholder="Background" required list="bg">
-<datalist id="bg" name="auto">Acolyte,Anthropologist,Athlete,Azorius Functionary,Black Fist Double Agent,Boros Legionnaire,Caravan Specialist,Celebrity Adventurer&apos;s Scion,Charlatan,City Watch,Clan Crafter,Cloistered Scholar,Cormanthor Refugee,Courtier,Criminal,Dimir Operative,Dissenter,Dragon Casualty,Earthspur Miner,Entertainer,Faceless,Faction Agent,Failed Merchant,Far Traveler,Feylost,Fisher,Folk Hero,Gambler,Gate Urchin,Cladiator,Golgari AgentGruul Anarch,Guild Artisan,Guild Merchant,Harborfolk,Haunted One,Hermit,Hillsfar Merchant,Hillsfar Smuggler,House Agent,Inheritor,Initiate,Inquisitor,Investigator,Iron Route Bandit,Izzet Engineer,Knight,Knight of the Order,Marine,Mercenary Veteran,Mulmaster Aristocrat,Noble,Orzhov Representative,Outlander,Phlan Insurgent,Phlan Refugee,Pirate,Plaintiff,Rakdos Cultist,Rival Intern,Sage,Sailor,Secret Identity,Selesnya Initiate,Shade Fanatic,Shipwrite,Simic Scientist,Smuggler,Soldier,Spy,Stojanow Prisoner,Ticklebelly Nomad,Trade Sheriff,Urban Bounty Hunter,Urchin,Uthgardt Tribe Member,Vizier,Waterdhavian Noble</datalist>
+<datalist id="bg" name="auto">Acolyte,Anthropologist,Athlete,Azorius Functionary,Black Fist Double Agent,Boros Legionnaire,Caravan Specialist,Celebrity Adventurer&apos;s Scion,Charlatan,City Watch,Clan Crafter,Cloistered Scholar,Cormanthor Refugee,Courtier,Criminal,Dimir Operative,Dissenter,Dragon Casualty,Earthspur Miner,Entertainer,Faceless,Faction Agent,Failed Merchant,Far Traveler,Feylost,Fisher,Folk Hero,Gambler,Gate Urchin,Gladiator,Golgari Agent,Gruul Anarch,Guild Artisan,Guild Merchant,Harborfolk,Haunted One,Hermit,Hillsfar Merchant,Hillsfar Smuggler,House Agent,Inheritor,Initiate,Inquisitor,Investigator,Iron Route Bandit,Izzet Engineer,Knight,Knight of the Order,Marine,Mercenary Veteran,Mulmaster Aristocrat,Noble,Orzhov Representative,Outlander,Phlan Insurgent,Phlan Refugee,Pirate,Plaintiff,Rakdos Cultist,Rival Intern,Sage,Sailor,Secret Identity,Selesnya Initiate,Shade Fanatic,Shipwrite,Simic Scientist,Smuggler,Soldier,Spy,Stojanow Prisoner,Ticklebelly Nomad,Trade Sheriff,Urban Bounty Hunter,Urchin,Uthgardt Tribe Member,Vizier,Waterdhavian Noble</datalist>
 
 <input type="text" placeholder="Race" required list="race" id="rtext" oninput="racbon()">
 <datalist id="race" onclick="racbon()">
@@ -254,7 +271,7 @@ function getBonus(val) {
 <option str=2 con=1>Orc</option>
 <option dex=2 cha=1>Tabaxi</option>
 <option str=1 con=1 cha=1>Triton</option>
-<option cha=2 int=1>Yuan-ti Pureboold</option>
+<option cha=2 int=1>Yuan-ti Pureblood</option>
 <option int=1>Gith</option>
 <option str=2 dex=1>Locathah</option>
 <option str=2 wis=1>Tortle</option>
@@ -271,17 +288,28 @@ Lawful Neutral Chaotic<br>
 
 <input type="number" placeholder="Proficiency Bonus" required min=0 value=2 oninput="bonus=parseInt(probon.value);" id="probon">
 
-<input type="number" placeholder="Strength" class="block" style="margin-top:15px;" id="mstr" oninput="stat('str')">
+<input type="number" class="block" style="margin-top:15px;" id="mstr" oninput="stat('str')">
+<span class="stat">Strength</span>
 <input type="number" class="bblock" id="str" oninput="mod('str')" required min=8 max=15>
-<input type="number" placeholder="Dexterity" class="block" id="mdex" oninput="stat('dex')">
+
+<input type="number" class="block" id="mdex" oninput="stat('dex')">
+<span class="stat">Dexterity</span>
 <input type="number" class="bblock" id="dex" oninput="mod('dex')" required min=8 max=15>
-<input type="number" placeholder="Constitution" class="block" id="mcon" oninput="stat('con')">
+
+<input type="number" class="block" id="mcon" oninput="stat('con')">
+<span class="stat">Constitution</span>
 <input type="number" class="bblock" id="con" oninput="mod('con')" required min=8 max=15>
-<input type="number" placeholder="Intelligence" class="block" id="mint" oninput="stat('int')">
+
+<input type="number" class="block" id="mint" oninput="stat('int')">
+<span class="stat">Intelligence</span>
 <input type="number" class="bblock" id="int" oninput="mod('int')" required min=8 max=15>
-<input type="number" placeholder="Wisdom" class="block" id="mwis" oninput="stat('wis')">
+
+<input type="number" class="block" id="mwis" oninput="stat('wis')">
+<span class="stat">Wisdom</span>
 <input type="number" class="bblock" id="wis" oninput="mod('wis')" required min=8 max=15>
-<input type="number" placeholder="Charisma" class="block" id="mcha" oninput="stat('cha')">
+
+<input type="number" class="block" id="mcha" oninput="stat('cha')">
+<span class="stat">Charisma</span>
 <input type="number" class="bblock" id="cha" oninput="mod('cha')" required min=8 max=15>
 
 <span class="section" id="sthrow">
@@ -296,7 +324,7 @@ Lawful Neutral Chaotic<br>
 <span class="section" id="pointb">
 Strength: <span id="pstr">0</span> Bonus: <input type="number" id="bstr" value="0" required oninput="upbon('str', 0)"><br>
 Dexterity: <span id="pdex">0</span> Bonus: <input type="number" id="bdex" value="0" required oninput="upbon('dex', 1)"><br>
-Constitiution: <span id="pcon">0</span> Bonus: <input type="number" id="bcon" value="0" required oninput="upbon('con', 2)"><br>
+Constitution: <span id="pcon">0</span> Bonus: <input type="number" id="bcon" value="0" required oninput="upbon('con', 2)"><br>
 Intelligence: <span id="pint">0</span> Bonus: <input type="number" id="bint" value="0" required oninput="upbon('int', 3)"><br>
 Wisdom: <span id="pwis">0</span> Bonus: <input type="number" id="bwis" value="0" required oninput="upbon('wis', 4)"><br>
 Charisma: <span id="pcha">0</span> Bonus: <input type="number" id="bcha" value="0" required oninput="upbon('cha', 5)"><br>
@@ -317,7 +345,7 @@ Total: <span id="ptot">0</span>
 <checkbox id="nat" name="int">Nature</checkbox><br>
 <checkbox id="pre" name="wis">Perception</checkbox><br>
 <checkbox id="pef" name="cha">Performance</checkbox><br>
-<checkbox id="pes" name="cha">Persuation</checkbox><br>
+<checkbox id="pes" name="cha">Persuasion</checkbox><br>
 <checkbox id="reg" name="int">Religion</checkbox><br>
 <checkbox id="soh" name="dex">Sleight of Hand</checkbox><br>
 <checkbox id="sel" name="dex">Stealth</checkbox><br>
@@ -333,7 +361,7 @@ for(var i=0;i<pro.length;i++) {
  var name = pro[i].getAttribute("name");
  pro[i].setAttribute("name", "");
  pro[i].id = "";
- pro[i].innerHTML = "<label class=\"checkbox\" onclick=\"prof('"+id+"')\"><input type=\"checkbox\" id=\""+("cb"+id)+"\"><span class=\"mark\"></span></label><input type=\"number\" placeholder=\""+inner+"\" id=\""+id+"\" name=\""+name+"\"><font color='grey'>"+name+"</font>";
+ pro[i].innerHTML = "<label class=\"checkbox\" onclick=\"prof('"+id+"')\"><input type=\"checkbox\" id=\""+("cb"+id)+"\"><span class=\"mark\"></span></label><input type=\"number\" placeholder=\""+inner+"\" id=\""+id+"\" name=\""+name+"\"><span class=\"dval\">"+inner+"</span> <font color='grey'>"+name+"</font>";
 }
 var dat = document.getElementsByName("auto");
 for(var i=0;i<dat.length;i++) {
