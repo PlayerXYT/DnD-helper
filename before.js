@@ -7,8 +7,14 @@ function prof(id) {
   var el = document.getElementById(id);
   var val = parseInt(el.value);
   var cb = document.getElementById("cb"+id);
-  if(cb.checked) {el.value = val+bonus;}
-  else {el.value= val-bonus;}
+  if(cb.checked) {
+   el.value = val+bonus;
+   if(cb.value="highlight") {document.getElementById("pskill").innerHTML = parseInt(document.getElementById("pskill").innerHTML)-1;}
+  }
+  else {
+   el.value= val-bonus;
+   if(cb.value="highlight") {document.getElementById("pskill").innerHTML = parseInt(document.getElementById("pskill").innerHTML)+1;}
+  }
  }
  did = !did;
 }
@@ -69,4 +75,19 @@ function showimg(url="") {
  var src = url.substring(url.split(".")[0].length+1).split("/")[0];
  img.src = url;
  imgsrc.innerHTML = "Source from <a href='"+url+"'>"+src+"</a>";
+}
+function suggest() {
+ var name = document.getElementById("ctext").value;
+ var cls = document.getElementById("class").getElementsByTagName("option");
+ var count = 0;
+ var ids = [];
+ for(var i=0;i<cls.length;i++) {
+  if(cls[i].innerHTML==name) {
+   count = cls[i].getAttribute("count");
+   ids = cls[i].getAttribute("ids").split(",");
+   break;
+  }
+ }
+ document.getElementById("pskill").innerHTML = count;
+ for(var i=0;i<ids.length;i++) {document.getElementById("cb"+ids[i]).value="highlight";}
 }

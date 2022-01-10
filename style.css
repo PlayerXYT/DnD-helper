@@ -12,6 +12,7 @@
  margin-right: 8px;
 }
 .checkbox input {display: none;}
+.checkbox input[value="highlight"] ~ .mark {background-color: #00FF00;}
 .checkbox input:checked + .mark {background-color: #000000;}
 .checkbox + input:placeholder-shown + .dval {color: transparent;}
 .dval {display: inline-block;width: 115px;}
@@ -134,7 +135,7 @@ input:invalid {border-color: #FF0000;}
  left: 90px;
  top: 280px;
  width: 320px;
- height: 176px;
+ height: 193px;
 }
 #pointb span {margin-bottom: 5px;display:inline-block;}
 #pointb input {width:50px;}

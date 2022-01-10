@@ -9,10 +9,102 @@
 <body>
 <input type="text" placeholder="Name" style="width:400px;height:50px;" required><br>
 <span class="section" id="basic">
-<input type="text" placeholder="Class & Level" required list="class">
-<datalist id="class" name="auto">Artificer 1,Barbarian 1,Bard 1,Cleric 1,Druid 1,Fighter 1,Monk 1,Paladin 1,Ranger 1,Rogue 1,Sorcerer 1,Warlock 1,Wizard 1</datalist>
+<input type="text" oninput="suggest()" id="ctext" placeholder="Class & Level" required list="class">
+<datalist id="class">
+<option count=2 ids="arc,his,inv,med,nat,pre,soh">Artificer 1</option>
+<option count=2 ids="anh,ath,ind,nat,pre,suv">Barbarian 1</option>
+<option count=3 ids="">Bard 1</option>
+<option count=2 ids="his,ins,med,pre,reg">Cleric 1</option>
+<option count=2 ids="arc,anh,ins,med,nat,per,reg,suv">Druid 1</option>
+<option count=2 ids="acr,anh,ath,his,ins,ind,pre,suv">Fighter 1</option>
+<option count=2 ids="acr,ath,his,ins,reg,sel">Monk 1</option>
+<option count=2 ids="ath,ins,ind,med,pre,reg">Paladin 1</option>
+<option count=3 ids="anh,ath,ins,inv,nat,pre,sel,suv">Ranger 1</option>
+<option count=4 ids="acr,ath,dep,ins,inv,pre,pef,pes,soh,sel">Rogue 1</option>
+<option count=2 ids="arc,dep,ins,ind,pes,reg">Sorcerer 1</option>
+<option count=2 ids="arc,dep,his,ind,inv,nat,reg">Warlock 1</option>
+<option count=2 ids="arc,his,ins,inv,med,reg">Wizard 1</option>
+</datalist>
 <input type="text" placeholder="Background" required list="bg">
-<datalist id="bg" name="auto">Acolyte,Anthropologist,Athlete,Azorius Functionary,Black Fist Double Agent,Boros Legionnaire,Caravan Specialist,Celebrity Adventurer&apos;s Scion,Charlatan,City Watch,Clan Crafter,Cloistered Scholar,Cormanthor Refugee,Courtier,Criminal,Dimir Operative,Dissenter,Dragon Casualty,Earthspur Miner,Entertainer,Faceless,Faction Agent,Failed Merchant,Far Traveler,Feylost,Fisher,Folk Hero,Gambler,Gate Urchin,Gladiator,Golgari Agent,Gruul Anarch,Guild Artisan,Guild Merchant,Harborfolk,Haunted One,Hermit,Hillsfar Merchant,Hillsfar Smuggler,House Agent,Inheritor,Initiate,Inquisitor,Investigator,Iron Route Bandit,Izzet Engineer,Knight,Knight of the Order,Marine,Mercenary Veteran,Mulmaster Aristocrat,Noble,Orzhov Representative,Outlander,Phlan Insurgent,Phlan Refugee,Pirate,Plaintiff,Rakdos Cultist,Rival Intern,Sage,Sailor,Selesnya Initiate,Shade Fanatic,Shipwrite,Simic Scientist,Smuggler,Soldier,Spy,Stojanow Prisoner,Ticklebelly Nomad,Trade Sheriff,Urban Bounty Hunter,Urchin,Uthgardt Tribe Member,Vizier,Waterdhavian Noble</datalist>
+<datalist id="bg">
+<option>Acolyte</option>
+<option>Anthropologist</option>
+<option>Athlete</option>
+<option>Azorius Functionary</option>
+<option>Black Fist Double Agent</option>
+<option>Boros Legionnaire</option>
+<option>Caravan Specialist</option>
+<option>Celebrity Adventurer&apos;s Scion</option>
+<option>Charlatan</option>
+<option>City Watch</option>
+<option>Clan Crafter</option>
+<option>Cloistered Scholar</option>
+<option>Cormanthor Refugee</option>
+<option>Courtier</option>
+<option>Criminal</option>
+<option>Dimir Operative</option>
+<option>Dissenter</option>
+<option>Dragon Casualty</option>
+<option>Earthspur Miner</option>
+<option>Entertainer</option>
+<option>Faceless</option>
+<option>Faction Agent</option>
+<option>Failed Merchant</option>
+<option>Far Traveler</option>
+<option>Feylost</option>
+<option>Fisher</option>
+<option>Folk Hero</option>
+<option>Gambler</option>
+<option>Gate Urchin</option>
+<option>Gladiator</option>
+<option>Golgari Agent</option>
+<option>Gruul Anarch</option>
+<option>Guild Artisan</option>
+<option>Guild Merchant</option>
+<option>Harborfolk</option>
+<option>Haunted One</option>
+<option>Hermit</option>
+<option>Hillsfar Merchant</option>
+<option>Hillsfar Smuggler</option>
+<option>House Agent</option>
+<option>Inheritor</option>
+<option>Initiate</option>
+<option>Inquisitor</option>
+<option>Investigator</option>
+<option>Iron Route Bandit</option>
+<option>Izzet Engineer</option>
+<option>Knight</option>
+<option>Knight of the Order</option>
+<option>Marine</option>
+<option>Mercenary Veteran</option>
+<option>Mulmaster Aristocrat</option>
+<option>Noble</option>
+<option>Orzhov Representative</option>
+<option>Outlander</option>
+<option>Phlan Insurgent</option>
+<option>Phlan Refugee</option>
+<option>Pirate</option>
+<option>Plaintiff</option>
+<option>Rakdos Cultist</option>
+<option>Rival Intern</option>
+<option>Sage</option>
+<option>Sailor</option>
+<option>Selesnya Initiate</option>
+<option>Shade Fanatic</option>
+<option>Shipwrite</option>
+<option>Simic Scientist</option>
+<option>Smuggler</option>
+<option>Soldier</option>
+<option>Spy</option>
+<option>Stojanow Prisoner</option>
+<option>Ticklebelly Nomad</option>
+<option>Trade Sheriff</option>
+<option>Urban Bounty Hunter</option>
+<option>Urchin</option>
+<option>Uthgardt Tribe Member</option>
+<option>Vizier</option>
+<option>Waterdhavian Noble</option>
+</datalist>
 
 <label style="position:absolute;left:750px;top:5px;"><input type="checkbox"> Secret Identity</label>
 
@@ -116,7 +208,8 @@ Constitution: <span id="pcon">0</span> Bonus: <input type="number" id="bcon" val
 Intelligence: <span id="pint">0</span> Bonus: <input type="number" id="bint" value="0" required oninput="upbon('int', 3)"><br>
 Wisdom: <span id="pwis">0</span> Bonus: <input type="number" id="bwis" value="0" required oninput="upbon('wis', 4)"><br>
 Charisma: <span id="pcha">0</span> Bonus: <input type="number" id="bcha" value="0" required oninput="upbon('cha', 5)"><br>
-Total: <span id="ptot">0</span>
+Total: <span id="ptot">0</span><br>
+Skills left: <span id="pskill">0</span>
 </span>
 
 <span class="section" id="skills">
