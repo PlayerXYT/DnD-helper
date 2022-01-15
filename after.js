@@ -1,6 +1,8 @@
 const probon = document.getElementById("probon");
 const img = document.getElementById("img");
 const imgsrc = document.getElementById("imgsrc");
+const tri = document.getElementById("tric");
+
 var pro = document.getElementsByTagName("checkbox");
 for(var i=0;i<pro.length;i++) {
  var inner = pro[i].innerHTML;

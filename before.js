@@ -9,11 +9,11 @@ function prof(id) {
   var cb = document.getElementById("cb"+id);
   if(cb.checked) {
    el.value = val+bonus;
-   if(cb.value="highlight") {document.getElementById("pskill").innerHTML = parseInt(document.getElementById("pskill").innerHTML)-1;}
+   if(cb.value=="highlight") {document.getElementById("pskill").innerHTML = parseInt(document.getElementById("pskill").innerHTML)-1;}
   }
   else {
-   el.value= val-bonus;
-   if(cb.value="highlight") {document.getElementById("pskill").innerHTML = parseInt(document.getElementById("pskill").innerHTML)+1;}
+   el.value = val-bonus;
+   if(cb.value=="highlight") {document.getElementById("pskill").innerHTML = parseInt(document.getElementById("pskill").innerHTML)+1;}
   }
  }
  did = !did;
@@ -34,7 +34,12 @@ function mod(id) {
  if(p.innerHTML=="NaN") {p.innerHTML = "<font color='red'>Value unset</font>";}
  f = parseInt((f-10)/2);
  var index = 0;
- if(id=="dex") {index=1;} else if(id=="con") {index=2;} else if(id=="int") {index=3;} else if(id=="wis") {index=4;} else if(id=="cha") {index=5;}
+ if(id=="dex") {
+  index=1;
+  document.getElementById("ac").value = 10+f;
+  document.getElementById("init").value = "+"+f;
+ }
+ else if(id=="con") {index=2;} else if(id=="int") {index=3;} else if(id=="wis") {index=4;} else if(id=="cha") {index=5;}
  f += rbon[index];
  document.getElementById("b"+id).value = rbon[index];
  m.value = f;
@@ -57,7 +62,8 @@ function calc(b) {if(b<13) {return b-8;}else {return (b-13+1)*2+3;}}
 function align(type) {
  document.getElementById("altext").value = type;
 }
-function racbon(name, data) {
+function racbon(name, data, speed=30) {
+ document.getElementById("speed").value = speed;
  var b = document.getElementById("rtext");
  b.value = name;
  data = data.split("");
@@ -90,4 +96,13 @@ function suggest() {
  }
  document.getElementById("pskill").innerHTML = count;
  for(var i=0;i<ids.length;i++) {document.getElementById("cb"+ids[i]).value="highlight";}
+}
+function getC() {
+ var a = parseInt(document.getElementById("tria").value);
+ var b = parseInt(document.getElementById("trib").value);
+ var c = Math.sqrt(Math.pow(a, 2)+Math.pow(b, 2));
+ 
+ if(c=="NaN") {return "";}
+ if(parseInt((c+"").split(".")[1].substring(0, 1))>=5) {c++;}
+ return parseInt(c);
 }

@@ -139,6 +139,13 @@ input:invalid {border-color: #FF0000;}
 }
 #pointb span {margin-bottom: 5px;display:inline-block;}
 #pointb input {width:50px;}
+#misc {
+ left: 90px;
+ top: 478px;
+ width: 320px;
+ height: 128px;
+ padding-top: 30px;
+}
 #skills {
  left: 420px;
  top: 100px;
@@ -159,8 +166,7 @@ checkbox:hover {
  border-color: #AAAAAA;
 }
 #img {
- max-width: 50%;
- max-height: 45%;
+ max-height: 500px;
  position: absolute;
  z-index: 5;
  left: 800px;
@@ -168,9 +174,33 @@ checkbox:hover {
 }
 #imgsrc {
  position: absolute;
- left: 800px;
- top: 700px;
+ left: 750px;
+ top: 600px;
  width: 400px;
  height: 20px;
  text-align: center;
+}
+#tri {
+ position: absolute;
+ right: 200px;
+ bottom: 100px;
+ font-size: 100px;
+}
+#tria, #trib, #tric {
+ position: absolute;
+ width: 40px;
+}
+#tria {
+ right: 280px;
+ bottom: 150px;
+}
+#trib {
+ right: 220px;
+ bottom: 100px;
+}
+#tric {
+ right: 200px;
+ bottom: 160px;
+ border-bottom: solid;
+ border-width: 3px;
 }
